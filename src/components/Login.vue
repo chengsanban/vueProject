@@ -31,11 +31,11 @@ export default {
       loginRules: {
         username: [
           { required: true, message: '请输入姓名', trigger: 'blur' },
-          { min: 3, max: 15, message: '长度在 3 到 15 个字符', trigger: 'blur' }
+          { min: 4, max: 15, message: '长度在 4 到 15 个字符', trigger: 'blur' }
         ],
         password: [
           { required: true, message: '请输入密码', trigger: 'blur' },
-          { min: 8, max: 18, message: '长度在 8 到 18 个字符', trigger: 'blur' }
+          { min: 4, max: 18, message: '长度在 4 到 18 个字符', trigger: 'blur' }
         ]
       }
     }
@@ -45,8 +45,22 @@ export default {
       this.$refs.loginFromRef.resetFields()
     },
     login () {
-      this.$refs.loginFromRef.validate((valid) => {
-        console.log(valid)
+      this.$refs.loginFromRef.validate(async (valid) => {
+        if (!valid) return
+
+        const { data: res } = await this.$http.post('login', this.loginFrom)
+        if (res.meta.status !== 200) {
+          return this.$message({
+            message: '登录失败',
+            type: 'error'
+          })
+        }
+        this.$message({
+          message: '登录成功',
+          type: 'success'
+        })
+        window.sessionStorage.setItem('token', res.data.token)
+        this.$router.push('/home')
       })
     }
   }
