@@ -24,4 +24,14 @@ const router = new VueRouter({
   routes
 })
 
+// 路由守卫
+router.beforeEach((to, from, next) => {
+  // 登录页面都可以访问
+  if (to.path === '/login') return next()
+  // 判断是否登录
+  const tokenStr = window.sessionStorage.getItem('token')
+  if (!tokenStr) return next('/login')
+  next()
+})
+
 export default router
