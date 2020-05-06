@@ -19,9 +19,15 @@ import {
   Row,
   Col,
   Table,
-  TableColumn
+  TableColumn,
+  Switch,
+  Tooltip,
+  Pagination
 } from 'element-ui'
 
+Vue.use(Pagination)
+Vue.use(Tooltip)
+Vue.use(Switch)
 Vue.use(Table)
 Vue.use(TableColumn)
 Vue.use(Row)
